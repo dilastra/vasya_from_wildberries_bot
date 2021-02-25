@@ -4,6 +4,7 @@ import CustomWizardSession from "./custom-wizard-session.interface";
 
 interface CustomContext extends Context {
   taskManager: any;
+  storeOdids: Map<string, number[]>;
   session: CustomSession;
   scene: Scenes.SceneContextScene<CustomContext, CustomWizardSession>;
   wizard: Scenes.WizardContextWizard<CustomContext>;

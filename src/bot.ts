@@ -2,8 +2,11 @@ import { Scenes, session, Telegraf } from "telegraf";
 import { authWizardScene, editWizardScene } from "./scenes";
 import { CustomContext } from "./types";
 import { controllersComposer, start } from "./controllers";
-import { customSessionMiddleware } from "./features";
-import { createConnection } from "./database";
+import {
+  customSessionMiddleware,
+  initJobCheckOrdersOnDeploy,
+} from "./features";
+import { createConnection, getAllUsers } from "./database";
 import mainMenu from "./controllers/main-menu/main-menu";
 import * as CronJobManager from "cron-job-manager";
 
@@ -16,8 +19,15 @@ import * as CronJobManager from "cron-job-manager";
   ]);
 
   bot.context.taskManager = new CronJobManager();
+  bot.context.storeOdids = new Map();
 
   await createConnection();
+
+  await initJobCheckOrdersOnDeploy(
+    bot.telegram,
+    bot.context,
+    await getAllUsers()
+  );
 
   bot.use(session());
 
