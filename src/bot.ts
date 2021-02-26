@@ -1,4 +1,4 @@
-import { Scenes, session, Telegraf } from "telegraf";
+import { Scenes, session, Telegraf, Telegram } from "telegraf";
 import { authWizardScene, editWizardScene } from "./scenes";
 import { CustomContext } from "./types";
 import { controllersComposer, start } from "./controllers";
@@ -20,20 +20,15 @@ import * as CronJobManager from "cron-job-manager";
 
   bot.context.taskManager = new CronJobManager();
   bot.context.storeOdids = new Map();
-
-  await createConnection();
-
-  await initJobCheckOrdersOnDeploy(
-    bot.telegram,
-    bot.context,
-    await getAllUsers()
-  );
-
   bot.use(session());
 
   bot.use(stage.middleware());
 
   bot.use(customSessionMiddleware());
+
+  await createConnection();
+
+  await initJobCheckOrdersOnDeploy(bot.context, await getAllUsers());
 
   // controllers
   bot.start(start);
@@ -43,7 +38,6 @@ import * as CronJobManager from "cron-job-manager";
   });
 
   bot.hears("Главное меню", async (ctx) => {
-    console.log(bot.context);
     return mainMenu(ctx);
   });
 
