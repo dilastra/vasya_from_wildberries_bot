@@ -13,7 +13,7 @@ function createJobsCheckOrders(
   const telegram = ctx.telegram ?? new Telegram(process.env.ACCESS_TOKEN_BOT);
   ctx.taskManager.add(
     `checkOrders_${user.telegramId}`,
-    `*/5 * * * * * `,
+    `0 */${Math.floor(Math.random() * (35 - 27) + 27)} * * * * `,
     async function () {
       const { apiKeyWildberries, telegramId, dateEndSubscription } = user;
       if (!moment().isAfter(dateEndSubscription)) {

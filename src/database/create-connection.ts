@@ -7,7 +7,7 @@ function createConnection() {
     useCreateIndex: true,
     useFindAndModify: false,
     autoIndex: false,
-    dbName: "vasya_from_wildberries_test",
+    dbName: process.env.NAME_DATABASE,
     serverSelectionTimeoutMS: 5000,
   };
   return mongoose.connect(process.env.MONGO_DB_URI, options);

@@ -1,4 +1,5 @@
 import { User } from "../../../types";
+import * as moment from "moment-timezone";
 
 function generateTextForReplyForUserInformationController(user: User) {
   const userInformation = generateUserInformation(user);
@@ -12,13 +13,22 @@ function generateUserInformation(user: User) {
     `Имя и Фамилия: <b>${user.firstName} ${user.lastName}</b>\n` +
     `Логин: <b>${user.telegramLogin}</b>\n` +
     `${isEmailEntered(user.email)}` +
-    `API_Key: <b>${user.apiKeyWildberries}</b>`;
+    `API_Key: <b>${user.apiKeyWildberries}</b>` +
+    `${isSubscription(user.dateEndSubscription)}`;
 
   return textForReply;
 }
 
 function isEmailEntered(email: string): string {
   return email ? `Email: <b>${email}</b>\n` : "";
+}
+
+function isSubscription(dateEndSubscription: string) {
+  return dateEndSubscription
+    ? `Окончание подписки: <b>${moment(dateEndSubscription).format(
+        "DD.MM.YYYY в HH:mm"
+      )}</b>`
+    : "";
 }
 
 export default generateTextForReplyForUserInformationController;
