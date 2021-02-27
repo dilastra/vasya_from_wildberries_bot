@@ -6,7 +6,7 @@ modile.exports = {
       watch: true,
       exec_mode: "cluster",
       env_test: {
-        PAYMENT_TOKEN: "381764678:TEST:22909",
+        PAYMENT_TOKEN: "381764678:TEST:22914",
         NAME_DATABASE: "vasya_from_wildberries_dev",
         MONGO_DB_URI:
           "mongodb+srv://Ruslan:oFy89qpYhVYf2NCZ@cluster0.vjaba.mongodb.net",
