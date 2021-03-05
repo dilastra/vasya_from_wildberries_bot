@@ -2,6 +2,7 @@ import { CustomContext } from "../../../types";
 import * as moment from "moment-timezone";
 import addUser from "../../../database/add-user";
 import mainMenu from "../../../controllers/main-menu/main-menu";
+import { createJobsCheckOrders } from "../../../features";
 
 async function lastSteps(ctx: CustomContext) {
   if ("text" in ctx.message) {
@@ -47,6 +48,7 @@ async function lastSteps(ctx: CustomContext) {
 
       if (user) {
         ctx.session.user = { ...user.toObject() };
+        createJobsCheckOrders(ctx);
         await ctx.reply("Спасибо за авторизацию");
         ctx.scene.leave();
 
