@@ -7,7 +7,10 @@ async function enterStep(ctx: CustomContext) {
     "Отправь мне свой Email)))\n" +
     "Мне он нужен для того, чтобы тебе отправлять чеки об оплате подписки.\n" +
     "Если ты пока не собираешься покупать подписку, то можешь пропустить этот шаг.";
-  await ctx.reply(textForReply, generateKeybord([["Пропустить ввод Email"]]));
+  await ctx.reply(
+    textForReply,
+    generateKeybord([["Пропустить ввод Email"]]).oneTime()
+  );
   return ctx.wizard.next();
 }
 

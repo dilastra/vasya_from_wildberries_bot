@@ -53,6 +53,10 @@ async function lastSteps(ctx: CustomContext) {
         return await mainMenu(ctx);
       }
     });
+  } else {
+    return await ctx.reply(
+      "Это все хорошо, но вернемся лучше к делу, отправь мне Email, либо пропусти)))"
+    );
   }
 }
 

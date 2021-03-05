@@ -18,7 +18,7 @@ function createJobsCheckOrders(
       const { apiKeyWildberries, telegramId, dateEndSubscription } = user;
       if (!moment().isAfter(dateEndSubscription)) {
         const optionsResponse = {
-          dateComingOrders: moment().tz("Europe/Dublin").format("YYYY-MM-DD"),
+          dateComingOrders: moment().tz("America/Nuuk").format("YYYY-MM-DD"),
           apiKeyWildberries: apiKeyWildberries,
         };
 
@@ -31,14 +31,25 @@ function createJobsCheckOrders(
 
         ctx.storeOdids.set(`${telegramId}`, newOdids);
 
-        orders.map(createOrderForReply).map(async (orderForReply) => {
-          const { descriptionOrder, urlImageOrders } = await orderForReply;
-          await telegram.sendPhoto(telegramId, urlImageOrders, {
-            caption: descriptionOrder,
-            parse_mode: "HTML",
-            disable_notification: isNightNow(),
-          });
-        });
+        if (orders.length > 0) {
+          const ordersForReply = orders.map(createOrderForReply);
+
+          for (let orderForReply of ordersForReply) {
+            const { descriptionOrder, urlImageOrders } = await orderForReply;
+            try {
+              await telegram.sendPhoto(telegramId, urlImageOrders, {
+                caption: descriptionOrder,
+                parse_mode: "HTML",
+                disable_notification: isNightNow(),
+              });
+            } catch ({ response: { error_code } }) {
+              ctx.taskManager.stop(`checkOrders_${telegramId}`);
+              ctx.taskManager.deleteJob(`checkOrders_${telegramId}`);
+              break;
+            }
+          }
+          return;
+        }
       } else {
         ctx.taskManager.deleteJob(`checkOrders_${telegramId}`);
         await editUserInDB(
@@ -59,7 +70,7 @@ function createJobsCheckOrders(
       }
     },
     {
-      timeZone: "Europe/Dublin",
+      timeZone: "America/Nuuk",
       start: true,
     }
   );
@@ -75,7 +86,7 @@ function createJobsCheckOrders(
         }
       },
       {
-        timeZone: "Europe/Dublin",
+        timeZone: "America/Nuuk",
         start: true,
       }
     );

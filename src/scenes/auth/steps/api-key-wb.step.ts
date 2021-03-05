@@ -7,8 +7,7 @@ async function isValidApiKey(apiKey: string) {
   const dateNow = moment().tz("Europe/Moscow").format("YYYY-MM-DD");
   const url = `https://suppliers-stats.wildberries.ru/api/v1/supplier/incomes?dateFrom=${dateNow}&key=${apiKey}`;
   const response = await request(url);
-  const isKeyOtherUser = await findUserInDB({ apiKeyWildberries: apiKey });
-  if (response.ok && !isKeyOtherUser) {
+  if (response.ok) {
     return true;
   } else {
     return false;
@@ -16,7 +15,7 @@ async function isValidApiKey(apiKey: string) {
 }
 
 async function apiKeyWbStep(ctx: CustomContext) {
-  if ("text" in ctx.message) {
+  if (ctx.message && "text" in ctx.message) {
     const { text } = ctx.message;
     await ctx.reply("Сейчас проверю его");
     if (await isValidApiKey(text)) {
@@ -25,7 +24,7 @@ async function apiKeyWbStep(ctx: CustomContext) {
       await ctx.reply("Api ключ валидный, круто)");
     } else {
       return await ctx.reply(
-        "Ключ к сожалению неправильный или его уже кто-то использует, попробуйте ещё раз"
+        "Ключ к сожалению неправильный или его уже кто-то использует, проверьте, или попробуйте другой"
       );
     }
 
@@ -38,6 +37,10 @@ async function apiKeyWbStep(ctx: CustomContext) {
     await ctx.reply(textForReply, generateKeybord(keybordsForReply));
 
     return ctx.wizard.next();
+  } else {
+    return await ctx.reply(
+      "Это все хорошо, но вернемся лучше к делу, отправь мне Email, либо пропусти)))"
+    );
   }
 }
 
