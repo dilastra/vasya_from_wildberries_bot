@@ -1,6 +1,12 @@
 import * as moment from "moment-timezone";
 import { Telegram } from "telegraf";
-import { editUserInDB, findUserInDB } from "../database";
+import {
+  editOdidsInDB,
+  editUserInDB,
+  findUserInDB,
+  getOdids,
+} from "../database";
+import { OdidsModel } from "../database/models";
 import { CustomContext } from "../types";
 import checkAndFilterOrders from "./check-orders";
 import createOrderForReply from "./create-orders-for-reply";
@@ -22,14 +28,18 @@ function createJobsCheckOrders(
           apiKeyWildberries: apiKeyWildberries,
         };
 
-        const odids = ctx.storeOdids.get(`${user.telegramId}`) ?? [];
+        const odids =
+          ((await getOdids(telegramId)) as {
+            telegramId: number;
+            odids: number[];
+          })?.odids ?? [];
 
         const {
           filteredOrders: orders,
           odids: newOdids,
         } = await checkAndFilterOrders(odids, optionsResponse);
 
-        ctx.storeOdids.set(`${telegramId}`, newOdids);
+        await editOdidsInDB({ telegramId }, { odids: newOdids });
 
         if (orders.length > 0) {
           const ordersForReply = orders.map(createOrderForReply);
@@ -75,15 +85,12 @@ function createJobsCheckOrders(
     }
   );
 
-  if (!ctx.taskManager.exists(`clearOdids_${user.telegramId}`)) {
+  if (!ctx.taskManager.exists("clearOdids")) {
     ctx.taskManager.add(
-      `clearOdids_${user.telegramId}`,
+      "clearOdids",
       "0 0 0 * * *",
-      () => {
-        ctx.storeOdids.delete(`${user.telegramId}`);
-        if (!ctx.taskManager.exists(`checkOrders_${user.telegramId}`)) {
-          ctx.taskManager.deleteJob(`clearSessionOdids_${user.telegramId}`);
-        }
+      async () => {
+        await OdidsModel.remove({});
       },
       {
         timeZone: "America/Nuuk",

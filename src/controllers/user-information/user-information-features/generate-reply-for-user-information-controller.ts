@@ -13,7 +13,7 @@ function generateUserInformation(user: User) {
     `Имя и Фамилия: <b>${user.firstName} ${user.lastName}</b>\n` +
     `Логин: <b>${user.telegramLogin}</b>\n` +
     `${isEmailEntered(user.email)}` +
-    `API_Key: <b>${user.apiKeyWildberries}</b>` +
+    `API_Key: <b>${user.apiKeyWildberries}</b>\n` +
     `${isSubscription(user.dateEndSubscription)}`;
 
   return textForReply;

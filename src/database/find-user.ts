@@ -1,8 +1,9 @@
 import { UserModel } from "./models";
 
 async function findUserInDB(options = {}) {
-  const user = await UserModel.find(options);
-  return user.length > 0 ? user[0].toObject() : undefined;
+  const user = await UserModel.findOne(options);
+
+  return user ? user.toObject() : undefined;
 }
 
 export default findUserInDB;

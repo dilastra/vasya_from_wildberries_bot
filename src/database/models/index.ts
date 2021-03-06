@@ -1,3 +1,4 @@
+import OdidsModel from "./odids.model";
 import UserModel from "./user.model";
 
-export { UserModel };
+export { OdidsModel, UserModel };
