@@ -1,5 +1,3 @@
-import { Telegraf } from "telegraf";
-import Telegram from "telegraf/typings/telegram";
 import { generateKeybord } from "../../features";
 import { CustomContext } from "../../types";
 import mainMenu from "../main-menu/main-menu";
@@ -13,7 +11,7 @@ async function start(ctx: CustomContext) {
   }
   return await ctx.replyWithHTML(
     generatereplyOnStart(),
-    generateKeybord([["Попробовать!"]])
+    generateKeybord([["Попробовать!"]]).oneTime()
   );
 }
 

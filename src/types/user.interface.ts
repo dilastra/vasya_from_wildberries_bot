@@ -3,7 +3,9 @@ interface User {
   telegramId?: number;
   firstName?: string;
   lastName?: string;
-  email?: string;
+  isProcessBuyedSubscription?: boolean;
+  messageIdPaymentMessage?: number;
+  messageIdNotificationsAboutDeleteMessage?: number;
   telegramLogin?: string;
   isUsedTestPeriod?: boolean;
   dateEndSubscription?: string;

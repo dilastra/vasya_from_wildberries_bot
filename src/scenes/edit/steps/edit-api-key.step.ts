@@ -3,13 +3,13 @@ import { request } from "../../../features";
 import { CustomContext } from "../../../types";
 import * as moment from "moment-timezone";
 import enterStep from "./enter";
+import apiKey from "../../../controllers/api-key/api-key";
 
 async function isValidApiKey(apiKey: string) {
   const dateNow = moment().tz("Europe/Moscow").format("YYYY-MM-DD");
   const url = `https://suppliers-stats.wildberries.ru/api/v1/supplier/incomes?dateFrom=${dateNow}&key=${apiKey}`;
   const response = await request(encodeURI(url));
-  const isKeyOtherUser = await findUserInDB({ apiKeyWildberries: apiKey });
-  if (response.ok && !isKeyOtherUser) {
+  if (response.ok || response.status === 429) {
     return true;
   } else {
     return false;
@@ -36,12 +36,12 @@ async function editApiKeySteps(ctx: CustomContext) {
         }
       );
 
-      ctx.wizard.selectStep(0);
+      ctx.scene.leave();
     } else {
       return await ctx.reply("API ключ невалиден");
     }
   }
-  return await enterStep(ctx);
+  return await apiKey(ctx);
 }
 
 export default editApiKeySteps;

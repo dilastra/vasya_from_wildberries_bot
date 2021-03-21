@@ -8,7 +8,7 @@ async function mainMenu(
 ) {
   return await ctx.reply(
     textForReply,
-    generateKeybord([["Мои данные", "Заказы", "Подписка"]])
+    generateKeybord([["Заказы", "Подписка"], ["API ключ от Wildberries"]])
   );
 }
 

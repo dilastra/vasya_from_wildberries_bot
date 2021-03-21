@@ -1,12 +1,11 @@
 import { Scenes } from "telegraf";
 import { start } from "../../controllers";
 import { CustomContext } from "../../types";
-import { apiKeyWbStep, emailStep, enterStep, lastSteps } from "./steps";
+import { apiKeyWbStep, enterStep, lastSteps } from "./steps";
 
 const authWizardScene = new Scenes.WizardScene<CustomContext>(
   "authScene",
   enterStep,
-  emailStep,
   apiKeyWbStep,
   lastSteps
 );

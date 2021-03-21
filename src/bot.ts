@@ -9,6 +9,8 @@ import {
 import { createConnection, getAllUsers } from "./database";
 import mainMenu from "./controllers/main-menu/main-menu";
 import * as CronJobManager from "cron-job-manager";
+import RobokassaPayAPI from "roboapi.ts";
+import * as moment from "moment";
 
 (async function () {
   const bot = new Telegraf<CustomContext>(process.env.ACCESS_TOKEN_BOT);
@@ -18,8 +20,14 @@ import * as CronJobManager from "cron-job-manager";
     editWizardScene,
   ]);
 
+  const robokassaArgs = {
+    mrhLogin: "vasya_from_wildberries",
+    mrhPass1: "FK4PO4iDwAr9fe1Kt3iC",
+    mrhPass2: "ZCR1g5YdX8tMYDrp8o4I",
+  };
+
   bot.context.taskManager = new CronJobManager();
-  bot.context.storeOdids = new Map();
+  bot.context.robokassa = new RobokassaPayAPI({ ...robokassaArgs });
 
   await createConnection();
 
@@ -31,7 +39,6 @@ import * as CronJobManager from "cron-job-manager";
 
   bot.use(customSessionMiddleware());
 
-  // controllers
   bot.start(start);
   bot.use(controllersComposer);
   bot.on("text", async (ctx) => {

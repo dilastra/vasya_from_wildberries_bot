@@ -17,20 +17,16 @@ async function isValidApiKey(apiKey: string) {
 async function apiKeyWbStep(ctx: CustomContext) {
   if (ctx.message && "text" in ctx.message) {
     const { text } = ctx.message;
-    await ctx.reply("Сейчас проверю его");
+    await ctx.reply("Сейчас проверю его... 5 сек");
     if (await isValidApiKey(text)) {
       const { sceneValue } = ctx.scene.session;
       ctx.scene.session.sceneValue = { ...sceneValue, apiKeyWildberries: text };
-      await ctx.reply("Api ключ валидный, круто)");
+      await ctx.reply("API ключ на удивление тоже правильный");
     } else {
-      return await ctx.reply(
-        "Ключ к сожалению неправильный или его уже кто-то использует, проверьте, или попробуйте другой"
-      );
+      return await ctx.reply("API ключ к сожалению неправильный((\n");
     }
 
-    const textForReply =
-      "Я сейчас могу тебе предложить использовать тестовый период\n" +
-      "Но также ты можешь отказаться, и потом перейти в раздел подписки, и купить подписку";
+    const textForReply = "Будешь использовать тестовый период?";
 
     const keybordsForReply = [["Использовать тестовый период"], ["Отказаться"]];
 

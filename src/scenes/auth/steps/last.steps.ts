@@ -48,17 +48,13 @@ async function lastSteps(ctx: CustomContext) {
 
       if (user) {
         ctx.session.user = { ...user.toObject() };
-        createJobsCheckOrders(ctx);
+        if (user.dateEndSubscription) createJobsCheckOrders(ctx);
         await ctx.reply("Спасибо за авторизацию");
         ctx.scene.leave();
 
         return await mainMenu(ctx);
       }
     });
-  } else {
-    return await ctx.reply(
-      "Это все хорошо, но вернемся лучше к делу, отправь мне Email, либо пропусти)))"
-    );
   }
 }
 

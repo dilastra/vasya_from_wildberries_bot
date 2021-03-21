@@ -1,16 +1,20 @@
-import { generateKeybord } from "../../../features";
+import { Markup } from "telegraf";
 import { CustomContext } from "../../../types";
 
 async function enterStep(ctx: CustomContext) {
   const textForReply =
-    "Теперь мы должны познакомиться))\n\n" +
-    "Отправь мне свой Email)))\n" +
-    "Мне он нужен для того, чтобы тебе отправлять чеки об оплате подписки.\n" +
-    "Если ты пока не собираешься покупать подписку, то можешь пропустить этот шаг.";
-  await ctx.reply(
-    textForReply,
-    generateKeybord([["Пропустить ввод Email"]]).oneTime()
-  );
+    "Для того, чтобы я смог смотреть новые заказы у тебя на Wildberries, мне нужен API ключ.\n\n";
+
+  await ctx.reply(textForReply, Markup.removeKeyboard());
+
+  await ctx.reply("Вот инструкция получения API ключа", {
+    ...Markup.inlineKeyboard([
+      Markup.button.url(
+        "Где взять API ключ?",
+        "https://telegra.ph/Gde-vzyat-Api-klyuch-02-25"
+      ),
+    ]),
+  });
   return ctx.wizard.next();
 }
 
