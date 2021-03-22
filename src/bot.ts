@@ -10,7 +10,6 @@ import { createConnection, getAllUsers } from "./database";
 import mainMenu from "./controllers/main-menu/main-menu";
 import * as CronJobManager from "cron-job-manager";
 import RobokassaPayAPI from "roboapi.ts";
-import * as moment from "moment";
 
 (async function () {
   const bot = new Telegraf<CustomContext>(process.env.ACCESS_TOKEN_BOT);
@@ -20,13 +19,15 @@ import * as moment from "moment";
     editWizardScene,
   ]);
 
+  bot.context.taskManager = new CronJobManager();
+
   const robokassaArgs = {
-    mrhLogin: "vasya_from_wildberries",
-    mrhPass1: "FK4PO4iDwAr9fe1Kt3iC",
-    mrhPass2: "ZCR1g5YdX8tMYDrp8o4I",
+    mrhLogin: process.env.ROBOKASSA_MRHLOGIN,
+    mrhPass1: process.env.ROBOKASSA_MRHPASS1,
+    mrhPass2: process.env.ROBOKASSA_MRHPASS2,
+    isTest: true,
   };
 
-  bot.context.taskManager = new CronJobManager();
   bot.context.robokassa = new RobokassaPayAPI({ ...robokassaArgs });
 
   await createConnection();

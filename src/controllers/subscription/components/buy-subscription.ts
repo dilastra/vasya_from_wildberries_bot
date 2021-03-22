@@ -21,7 +21,7 @@ async function buySubscription(ctx: CustomContext) {
     });
 
     const inlineKeybord = Markup.inlineKeyboard([
-      Markup.button.url("Заплатить 499.99 RUB", linkOnPay),
+      Markup.button.url("Оплатить подписку", linkOnPay),
     ]);
 
     const keybord = generateKeybord([
@@ -31,8 +31,11 @@ async function buySubscription(ctx: CustomContext) {
 
     const { message_id: messageIdPaymentMessage } = await ctx.reply(
       "Чтобы оплатить подписку на месяц, нажмите кнопку 'Заплатить'\n\n" +
+        "Цена: <b>499.99 рублей </b>\n" +
+        "Срок действия: <b>1 месяц с даты оплаты</b>\n\n" +
         "Оплата нужно произвести в течении 10 минут, либо ссылка на оплату самоуничтожится",
       {
+        parse_mode: "HTML",
         ...inlineKeybord,
       }
     );

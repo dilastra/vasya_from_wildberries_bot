@@ -1,4 +1,3 @@
-import { Composer } from "telegraf";
 import { generateKeybord } from "../../features";
 import { CustomContext } from "../../types";
 
@@ -8,7 +7,11 @@ async function mainMenu(
 ) {
   return await ctx.reply(
     textForReply,
-    generateKeybord([["Заказы", "Подписка"], ["API ключ от Wildberries"]])
+    generateKeybord([
+      ["Заказы", "Подписка"],
+      ["API ключ от Wildberries"],
+      ["Сообщества"],
+    ])
   );
 }
 

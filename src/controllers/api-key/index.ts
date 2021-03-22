@@ -10,4 +10,4 @@ apiKeyComposer.hears("Редактировать API ключ", (ctx) => {
   ctx.scene.enter("editScene");
 });
 
-export { apiKeyComposer };
+export default apiKeyComposer;

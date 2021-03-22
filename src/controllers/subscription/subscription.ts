@@ -5,21 +5,21 @@ import * as moment from "moment-timezone";
 async function subscription(ctx: CustomContext) {
   const { isProcessBuyedSubscription, dateEndSubscription } = ctx.session.user;
 
-  const isCanBuySubscription = moment().isBetween(
-    moment(dateEndSubscription).subtract(1, "week"),
-    moment(dateEndSubscription)
-  );
+  const isCanBuySubscription = dateEndSubscription
+    ? moment().isBetween(
+        moment(dateEndSubscription).subtract(1, "week"),
+        moment(dateEndSubscription)
+      )
+    : true;
 
   const keybord = [
-    dateEndSubscription
-      ? [
-          isCanBuySubscription
-            ? isProcessBuyedSubscription
-              ? "Отменить оплату подписки"
-              : "Купить подписку"
-            : "",
-        ]
-      : ["Купить подписку"],
+    [
+      isCanBuySubscription
+        ? isProcessBuyedSubscription
+          ? "Отменить оплату подписки"
+          : "Купить подписку"
+        : "",
+    ],
     ["Главное меню"],
   ];
 
@@ -29,9 +29,11 @@ async function subscription(ctx: CustomContext) {
     ? `Окончание подписки: <b>${moment(dateEndSubscription).format(
         "DD.MM.YYYY в HH:mm"
       )}</b>\n\n` +
-      `Подписку можно будет продлить с <b>${moment(dateEndSubscription)
+      `Подписку можно продлить с <b>${moment(dateEndSubscription)
         .subtract(1, "week")
         .format("DD.MM.YYYY")}</b>`
+    : isProcessBuyedSubscription
+    ? "Ссылка оплата сгенерирована. Оплатите или отмените оплату, или дождитесь самоуничтожения ссылки на оплату"
     : "У вас нету ещё подписки";
   return await ctx.reply(textForReply, {
     ...keybordForReply,
