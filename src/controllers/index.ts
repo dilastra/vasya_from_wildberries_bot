@@ -6,6 +6,7 @@ import mainMenuComposer from "./main-menu";
 import ordersComposer from "./orders";
 import start from "./start/start";
 import subscriptionComposer from "./subscription";
+import supportServiceComposer from "./support-service";
 
 const controllersComposer = Composer.compose([
   apiKeyComposer,
@@ -14,6 +15,7 @@ const controllersComposer = Composer.compose([
   mainMenuComposer,
   ordersComposer,
   subscriptionComposer,
+  supportServiceComposer,
 ]);
 
 export { start, controllersComposer };

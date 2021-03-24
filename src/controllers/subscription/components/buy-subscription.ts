@@ -13,7 +13,7 @@ async function buySubscription(ctx: CustomContext) {
   if (!isProcessBuyedSubscription) {
     const invId = Math.floor(Math.random() * (1000 - 1000000) + 1000000);
     const linkOnPay = ctx.robokassa.getLink({
-      outSum: 1,
+      outSum: 99.99,
       invId,
       description:
         "Оплата подписки на 1 месяц на уведовление о новых заказах в боте 'Вася с Wildberries'",
@@ -96,7 +96,9 @@ async function buySubscription(ctx: CustomContext) {
               delete ctx.session.user.messageIdPaymentMessage;
               ctx.session.user.isProcessBuyedSubscription = false;
               await ctx.reply(
-                "Оплата произведена, просмотр новых заказов будет продолжен в ближайшее время",
+                `Оплата произведена, новые заказы ${
+                  dateEndSubscription ? "продолжат" : " начнут"
+                } отображаться в ближайшее время.`,
                 generateKeybord([["Главное меню"]])
               );
             }

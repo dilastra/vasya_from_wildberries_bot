@@ -10,7 +10,7 @@ async function mainMenu(
     generateKeybord([
       ["Заказы", "Подписка"],
       ["API ключ от Wildberries"],
-      ["Сообщества"],
+      ["Сообщества", "Служба поддержки бота"],
     ])
   );
 }

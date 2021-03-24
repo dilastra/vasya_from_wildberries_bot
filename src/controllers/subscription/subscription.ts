@@ -6,10 +6,7 @@ async function subscription(ctx: CustomContext) {
   const { isProcessBuyedSubscription, dateEndSubscription } = ctx.session.user;
 
   const isCanBuySubscription = dateEndSubscription
-    ? moment().isBetween(
-        moment(dateEndSubscription).subtract(1, "week"),
-        moment(dateEndSubscription)
-      )
+    ? moment().isAfter(moment(dateEndSubscription).subtract(1, "week"))
     : true;
 
   const keybord = [
@@ -34,7 +31,7 @@ async function subscription(ctx: CustomContext) {
         .format("DD.MM.YYYY")}</b>`
     : isProcessBuyedSubscription
     ? "Ссылка оплата сгенерирована. Оплатите или отмените оплату, или дождитесь самоуничтожения ссылки на оплату"
-    : "У вас нету ещё подписки";
+    : "У вас нету подписки";
   return await ctx.reply(textForReply, {
     ...keybordForReply,
     parse_mode: "HTML",

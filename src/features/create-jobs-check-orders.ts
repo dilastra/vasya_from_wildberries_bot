@@ -69,7 +69,7 @@ function createJobsCheckOrders(
             async function (err, res) {
               if (err) return console.log(err);
 
-              if (res) {
+              if (res && ctx.session) {
                 ctx.session.user = await findUserInDB({ telegramId });
               }
             }

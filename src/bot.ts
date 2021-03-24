@@ -25,20 +25,19 @@ import RobokassaPayAPI from "roboapi.ts";
     mrhLogin: process.env.ROBOKASSA_MRHLOGIN,
     mrhPass1: process.env.ROBOKASSA_MRHPASS1,
     mrhPass2: process.env.ROBOKASSA_MRHPASS2,
-    isTest: true,
   };
 
   bot.context.robokassa = new RobokassaPayAPI({ ...robokassaArgs });
-
-  await createConnection();
-
-  await initJobCheckOrdersOnDeploy(bot.context, await getAllUsers());
 
   bot.use(session());
 
   bot.use(stage.middleware());
 
   bot.use(customSessionMiddleware());
+
+  await createConnection();
+
+  await initJobCheckOrdersOnDeploy(bot.context, await getAllUsers());
 
   bot.start(start);
   bot.use(controllersComposer);

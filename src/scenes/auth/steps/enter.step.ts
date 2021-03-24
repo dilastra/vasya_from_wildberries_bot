@@ -3,11 +3,10 @@ import { CustomContext } from "../../../types";
 
 async function enterStep(ctx: CustomContext) {
   const textForReply =
-    "Для того, чтобы я смог смотреть новые заказы у тебя на Wildberries, мне нужен API ключ.\n\n";
+    "Для начала работы, как я и говорил, мне нужен API ключ от Wildberries Партнеры. " +
+    "Инструкцию получения API ключа я прекрипил к этому сообщению\n\n";
 
-  await ctx.reply(textForReply, Markup.removeKeyboard());
-
-  await ctx.reply("Вот инструкция получения API ключа", {
+  await ctx.reply(textForReply, {
     ...Markup.inlineKeyboard([
       Markup.button.url(
         "Где взять API ключ?",
@@ -15,6 +14,12 @@ async function enterStep(ctx: CustomContext) {
       ),
     ]),
   });
+
+  await ctx.reply(
+    "Как его получишь, отправь мне его сообщением",
+    Markup.removeKeyboard()
+  );
+
   return ctx.wizard.next();
 }
 
