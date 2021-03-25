@@ -47,6 +47,7 @@ function createJobsCheckOrders(
 
             for (let orderForReply of ordersForReply) {
               const { descriptionOrder, urlImageOrders } = await orderForReply;
+              await new Promise((resolve) => setTimeout(resolve, 40));
               try {
                 await telegram.sendPhoto(telegramId, urlImageOrders, {
                   caption: descriptionOrder,
