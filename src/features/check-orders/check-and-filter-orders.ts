@@ -29,6 +29,7 @@ async function checkAndFilterOrders(
 
             if (indexFindedOrder !== -1) {
               order.quantity += 1;
+
               orders.splice(indexFindedOrder, 1);
               continue;
             } else {

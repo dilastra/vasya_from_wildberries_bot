@@ -23,8 +23,8 @@ async function createDescriptionOrder(order: Order): Promise<string> {
     `Название товара: <b>${await getProductName(nmId)}</b>\n` +
     `Количество товара: <b>${quantity}</b>\n` +
     `Сумма продажи с учетом скидок: <b>${(
-      (totalPrice * (100 - discountPercent)) /
-      100
+      ((totalPrice * (100 - discountPercent)) / 100) *
+      quantity
     ).toFixed(2)}₽</b>\n` +
     `Регион заказа: <b>${oblast}</b>`;
 
