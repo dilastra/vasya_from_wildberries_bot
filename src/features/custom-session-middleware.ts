@@ -3,7 +3,8 @@ import { CustomContext } from "../types";
 
 function customSessionMiddleware() {
   return async function (ctx: CustomContext, next: () => Promise<void>) {
-    if (ctx.session && !ctx.session.user) {
+    console.log(ctx.message);
+    if (ctx.session && !ctx.session.user && ctx.message.from) {
       const user = await findUserInDB({ telegramId: ctx.message.from.id });
       ctx.session = user ? { user, ...ctx.session } : { ...ctx.session };
     }
