@@ -8,7 +8,7 @@ async function enableCheckOrders(ctx: CustomContext) {
   if (dateEndSubscription && !moment().isAfter(dateEndSubscription)) {
     createJobsCheckOrders(ctx);
     return await ctx.reply(
-      "Я включил просмотр новых заказов",
+      "Просмотр новых заказов включен",
       keybordForReply(ctx.taskManager, telegramId)
     );
   } else {

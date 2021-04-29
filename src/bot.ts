@@ -51,6 +51,8 @@ import RobokassaPayAPI from "roboapi.ts";
 
   bot.launch();
 
+  bot.catch((e) => console.log(e));
+
   process.once("SIGINT", () => bot.stop("SIGINT"));
   process.once("SIGTERM", () => bot.stop("SIGTERM"));
 })();

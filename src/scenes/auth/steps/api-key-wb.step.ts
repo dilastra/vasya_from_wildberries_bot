@@ -1,5 +1,4 @@
 import * as moment from "moment-timezone";
-import { findUserInDB } from "../../../database";
 import { generateKeybord, request } from "../../../features";
 import { CustomContext } from "../../../types";
 
@@ -35,7 +34,7 @@ async function apiKeyWbStep(ctx: CustomContext) {
     return ctx.wizard.next();
   } else {
     return await ctx.reply(
-      "Это все хорошо, но вернемся лучше к делу, отправь мне Email, либо пропусти)))"
+      "Это все хорошо, но вернемся лучше к делу, отправь мне API ключ, либо пропусти)))"
     );
   }
 }

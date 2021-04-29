@@ -15,6 +15,8 @@ async function createDescriptionOrder(order: Order): Promise<string> {
     totalPrice,
   } = order;
 
+  const priceWithDiscount = (totalPrice * (100 - discountPercent)) / 100;
+
   const descriptionOrder =
     `Дата и время заказа: <b>${moment(date).format("DD.MM.YYYY HH:mm")}</b>\n` +
     `Номер заказа: <b>${number}</b>\n` +
@@ -22,10 +24,9 @@ async function createDescriptionOrder(order: Order): Promise<string> {
     `Бренд товара: <b>${brand}</b>\n` +
     `Название товара: <b>${await getProductName(nmId)}</b>\n` +
     `Количество товара: <b>${quantity}</b>\n` +
-    `Сумма продажи с учетом скидок: <b>${(
-      ((totalPrice * (100 - discountPercent)) / 100) *
-      quantity
-    ).toFixed(2)}₽</b>\n` +
+    `Сумма продажи с учетом скидок: <b>${(priceWithDiscount * quantity).toFixed(
+      2
+    )}₽</b>\n` +
     `Регион заказа: <b>${oblast}</b>`;
 
   return descriptionOrder;

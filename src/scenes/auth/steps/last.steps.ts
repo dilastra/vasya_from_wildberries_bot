@@ -18,12 +18,16 @@ async function lastSteps(ctx: CustomContext) {
         isUsedTestPeriod: true,
         dateEndSubscription: dateEndSubscription,
       };
-    } else {
+    } else if (text === "Отказаться") {
       sceneValue = {
         ...sceneValue,
         isUsedTestPeriod: false,
         dateEndSubscription: "",
       };
+    } else {
+      return await ctx.reply(
+        "Немного не понял) Нажмите одну из двух кнопок в клавиатуре))"
+      );
     }
 
     ctx.scene.session.sceneValue = null;
@@ -50,6 +54,9 @@ async function lastSteps(ctx: CustomContext) {
         ctx.session.user = { ...user.toObject() };
         if (user.dateEndSubscription) createJobsCheckOrders(ctx);
         await ctx.reply("Спасибо за авторизацию");
+        await ctx.reply(
+          "Просмотр новых заказов уже начат) Если новые заказы появятся, я пришлю тебе информацию о них)"
+        );
         ctx.scene.leave();
 
         return await mainMenu(ctx);
