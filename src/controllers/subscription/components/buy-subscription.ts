@@ -13,7 +13,7 @@ async function buySubscription(ctx: CustomContext) {
   if (!isProcessBuyedSubscription) {
     const invId = Math.floor(Math.random() * (1000 - 1000000) + 1000000);
     const linkOnPay = ctx.robokassa.getLink({
-      outSum: 99.99,
+      outSum: 199.99,
       invId,
       description:
         "Оплата подписки на 1 месяц на уведовление о новых заказах в боте 'Вася с Wildberries'",
@@ -31,7 +31,7 @@ async function buySubscription(ctx: CustomContext) {
 
     const { message_id: messageIdPaymentMessage } = await ctx.reply(
       "Чтобы оплатить подписку на месяц, нажмите кнопку 'Заплатить'\n\n" +
-        "Цена: <b>99.99 рублей </b>\n" +
+        "Цена: <b>199.99 рублей </b>\n" +
         "Срок действия: <b>1 месяц с даты оплаты</b>\n\n" +
         "Оплата нужно произвести в течении 10 минут, либо ссылка на оплату самоуничтожится",
       {
